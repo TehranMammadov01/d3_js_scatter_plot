@@ -25,21 +25,33 @@ const svg = d3.select('body')
 const main = async () => {
     const data = await d3.csv(csvUrl, parseRow);
 
-    svg.call(
-        scatterPlot()
-            .width(width)
-            .height(height)
-            .data(data)
-            .xValue((d) => d.petal_width)
-            .yValue((d) => d.sepal_length)
-            .symbolValue((d) => d.species)
-            .margin ({
-                top: 20,
-                right: 20,
-                bottom: 20,
-                left: 50
-            })
-            .size((width * 0.5) / 100)
-    )
+    const plot = scatterPlot()
+        .width(width)
+        .height(height)
+        .data(data)
+        .xValue((d) => d.petal_width)
+        .yValue((d) => d.sepal_length)
+        .symbolValue((d) => d.species)
+        .margin ({
+            top: 20,
+            right: 20,
+            bottom: 20,
+            left: 50
+        })
+        .size((width * 0.5) / 100)
+
+    const columns = [
+        'petal_width',
+        'sepal_width',
+        'petal_length',
+        'sepal_length'
+    ]
+    let i = 0;
+
+    setInterval(() => {
+        plot.xValue((d) => d[columns[i % columns.length]]);
+        svg.call(plot); 
+        i++;
+    }, 2000)
 }
 main();

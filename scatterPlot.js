@@ -39,11 +39,17 @@ const scatterPlot = () => {
             .append('title')
             .text((d) => d.title)
         selection
-            .append('g')
+            .selectAll('g.y-axis')
+            .data([null])
+            .join('g')
+            .attr('class', 'y-axis')
             .attr('transform', `translate(${margin.left}, 0)`)
             .call(d3.axisLeft(y))
         selection
-            .append('g')
+            .selectAll('g.x-axis')
+            .data([null])
+            .join('g')
+            .attr('class', 'x-axis')
             .attr('transform', `translate(0, ${height - margin.bottom})`)
             .call(d3.axisBottom(x))
     }
